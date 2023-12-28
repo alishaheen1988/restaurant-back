@@ -8,6 +8,11 @@ use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 
 class CategoryService
 {
+    public function getCategories()
+    {
+        return Category::whereUserId(\Auth::id())->whereNull('parent_id')->with('items','allChildren')->first();
+    }
+
     public function addCategory($name, $parent_id, $desc=null, $discount_percentage = null)
     {
         $parent = Category::find($parent_id);
