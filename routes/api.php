@@ -20,4 +20,10 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::post('login',[UserController::class,'login']);
-Route::middleware('auth:sanctum')->post('logout',[UserController::class,'logout']);
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('logout',[UserController::class,'logout']);
+    Route::apiResource('categories', CategoryController::class);
+    Route::apiResource('items', ItemController::class);
+
+});
