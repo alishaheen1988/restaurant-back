@@ -10,7 +10,7 @@ class ItemController extends Controller
     private ItemService $itemService;
     public function __construct(ItemService $itemService)
     {
-       $this->$itemService=$itemService;
+       $this->itemService=$itemService;
     }
 
     /**
@@ -30,16 +30,7 @@ class ItemController extends Controller
      */
     public function create(Request $request)
     {
-        $data = $request->validate([
-            'name'=>'required|string',
-            'description'=>'string|nullable',
-            'price' => 'required|integer',
-            'category_id'=>'required|integer|exists:categories,id',
-            'discount_percentage'=>'integer|nullable',
-        ]);
-
-        $this->itemService->addItem($data['name'],$data['price'],$data['category_id'],$data['description'],$data['discount_percentage']);
-        return $this->response("Item added successfully");
+       
     }
 
     /**
@@ -50,7 +41,16 @@ class ItemController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->validate([
+            'name'=>'required|string',
+            'description'=>'string|nullable',
+            'price' => 'required|integer',
+            'category_id'=>'required|integer|exists:categories,id',
+            'discount_percentage'=>'integer|nullable',
+        ]);
+
+        $this->itemService->addItem($data['name'],$data['price'],$data['category_id'],$data['description'],$data['discount_percentage']);
+        return $this->response("Item added successfully");
     }
 
     /**
