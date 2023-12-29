@@ -34,7 +34,7 @@ class CategoryService
     {
         if (!Category::whereUserId($user_id)->whereNull('parent_id')->exists())
             return Category::create([
-                'name' => 'My rooy category',
+                'name' => 'My root category',
                 'user_id' => $user_id,
                 'level' => 0
             ]);
