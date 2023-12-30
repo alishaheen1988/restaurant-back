@@ -11,10 +11,10 @@ class ItemService
 {
     public function addItem($name, $price, $category_id, $desc=null, $discount_percentage=null)
     {
-        $category=Category::find($category_id);
+        $category=Category::with('children')->find($category_id);
         if ($category->user_id != \Auth::id())
             throw new UnauthorizedException('UnAuthorized',403);
-        if ($category->children()->exists())
+        if (isset($category->children) && count($category->children)>0)
             throw new BadRequestException('This category has subcategories');
         return Item::create([
             'name'=>$name,

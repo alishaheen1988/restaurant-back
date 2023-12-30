@@ -42,10 +42,10 @@ class CategoryService
     }
     public function addCategory($name,  $parent_id, $desc = null, $discount_percentage = null)
     {
-        $parent = Category::find($parent_id);
+        $parent = Category::with('items')->find($parent_id);
         if ($parent->user_id != \Auth::id())
             throw new UnauthorizedException('UnAuthorized',403);
-        if ($parent->items()->exists())
+        if (isset($parent->items) && count($parent->items)>0)
             throw new BadRequestException('This category has items');
         if ($parent->level > 3)
             throw new BadRequestException('Can\'t add more categories');
